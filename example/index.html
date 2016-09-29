@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Debug UI example</title>
+    <meta name="description" content="Debug UI - A-Frame">
+    <script src="../vendor/aframe.js"></script>
+    <script src="../vendor/aframe-bmfont-text-component.min.js"></script>
+    <script src="../debug-ui.js"></script>
+  </head>
+  <body>
+    <a-scene debug-ui="properties: geometry.height geometry.depth">
+      <a-entity position="0 0 -12" rotation="45 30 0"
+                geometry="primitive: box; height: 8; width: 8; depth: 8;"
+                material="color: #167341; roughness: 1.0; metalness: 0.2;"></a-entity>
+    </a-scene>
+  </body>
+</html>
