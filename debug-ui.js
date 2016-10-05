@@ -84,7 +84,8 @@ AFRAME.registerComponent('debug-ui', {
 
 	updateHUD: function () {
 		var selectedProperty = this.selectedProperty;
-		var text = selectedProperty.component + ' ' + selectedProperty.property;
+		var value = selectedProperty.value || '';
+		var text = selectedProperty.component + ' ' + selectedProperty.property + ' ' + value.toFixed(2);
 		this.hudEl.setAttribute('bmfont-text', 'text', text);
 	},
 
@@ -102,16 +103,19 @@ AFRAME.registerComponent('debug-ui', {
 		var propertyName = property.property;
 		var els = this.el.querySelectorAll('[' + component + ']');
 		var valueIncrement = 5 * deltaAxis;
+		var self = this;
 		els.forEach(function updateEl(el) {
 			var currentValue = el.getComputedAttribute(component)[propertyName];
 			var newValue = currentValue + valueIncrement;
 			var schema = el.components[component].schema[propertyName];
-			if ((schema.min !== undefined && newValue <= schema.min) ||
+			if (property.value === newValue ||
+				  (schema.min !== undefined && newValue <= schema.min) ||
 				 ((schema.max !== undefined && newValue > schema.max))) {
 				return;
 			}
-			console.log("CACA " + newValue + ' Inc: ' + valueIncrement + " delta " + deltaAxis);
 			el.setAttribute(component, propertyName, newValue);
+			property.value = newValue;
+			self.updateHUD();
 		});
 		this.deltaAxis = 0;
 	},
